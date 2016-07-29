@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.javaassistant.model">
+	<class name="Knowledge" table="knowledge">
+		<id name="id" column="knowledge_id" type="integer">
+			<generator class="native"></generator>
+		</id>
+		<property name="subject" column="knowledge_subject" length="512"></property>
+		<property name="content" column="knowledge_content" length="2048"></property>
+		<property name="importance" column="knowledge_importance"
+			type="float"></property>
+		<property name="type" column="knowledge_type" type="integer">
+		</property>
+		<property name="imageUrl" column="image_url" length="1024"></property>
+	</class>
+</hibernate-mapping>

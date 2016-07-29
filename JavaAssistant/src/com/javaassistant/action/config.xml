@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/lang
+	http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<!-- 加载配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:com/javaassistant/action/jdbc.properties</value>
+				<value>classpath:com/javaassistant/action/hibernate_config.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url" value="${database.url}"></property>
+		<property name="driverClassName" value="${database.driver}"></property>
+		<property name="username" value="${database.user}"></property>
+		<property name="password" value="${database.password}"></property>
+	</bean>
+	<!-- Session工厂 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mappingResources">
+			<list>
+				<value>com/javaassistant/model/Knowledge.hbm.xml</value>
+				<value>com/javaassistant/model/Question.hbm.xml</value>
+				<value>com/javaassistant/model/UserInfo.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="current_session_context_class">${hibernate.current_session_context_class}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="javax.persistence.validation.mode">${javax.persistence.validation.mode}</prop>
+				<prop key="jdbc.fetch_size">${jdbc.fetch_size}</prop>
+				<prop key="jdbc.batch_size">${jdbc.batch_size}</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 数据库访问对象 -->
+	<bean id="knowledgeDAO" class="com.javaassistant.dao.impl.KnowledgeDAOImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="questionDAO" class="com.javaassistant.dao.impl.QuestionDAOImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="userInfoDAO" class="com.javaassistant.dao.impl.UserInfoDAOImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+
+	<!-- 事务管理 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 通知定义 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="load*" read-only="false" propagation="NOT_SUPPORTED" />
+			<tx:method name="find*" read-only="false" propagation="NOT_SUPPORTED" />
+			<tx:method name="get" read-only="false" propagation="NOT_SUPPORTED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置切点和通知 -->
+	<aop:config>
+		<aop:pointcut id="bussinessService"
+			expression="execution(* com.javaassistant.dao.impl.*.*(..))" />
+		<aop:advisor pointcut-ref="bussinessService" advice-ref="txAdvice" />
+	</aop:config>
+</beans>
