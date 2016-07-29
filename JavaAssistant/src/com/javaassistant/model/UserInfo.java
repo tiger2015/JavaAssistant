@@ -16,6 +16,7 @@ public class UserInfo implements Serializable {
 	private String email;
 	private String imageUrl;// 图像
 	private int isOnline=0;// 用户是否在线，0--离线,1--在线
+	private int level=0;
 
 	public UserInfo() {
 		super();
