@@ -19,7 +19,7 @@ public class Knowledge implements Serializable {
 	private String subject;
 	private String content;
 	private float importance;
-	private int type=0;
+	private int type = 0;
 	private String imageUrl;
 
 	public Knowledge() {
@@ -84,10 +84,6 @@ public class Knowledge implements Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

@@ -7,7 +7,11 @@
 			<generator class="native"></generator>
 		</id>
 		<property name="content" column="question_content" length="2048"></property>
-		<property name="choice" column="question_choice" length="2048"></property>
+		<property name="choice1" column="question_choice1" length="1024"></property>
+		<property name="choice2" column="question_choice2" length="1024"></property>
+		<property name="choice3" column="question_choice3" length="1024"></property>
+		<property name="choice4" column="question_choice4" length="1024"></property>
+		<property name="choice5" column="question_choice5" length="1024"></property>
 		<property name="answer" column="question_answer" length="2048"></property>
 		<property name="analysis" column="answer_analysis" length="2048"></property>
 		<property name="type" column="question_type" type="integer"></property>

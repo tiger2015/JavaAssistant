@@ -14,9 +14,9 @@ public class UserInfo implements Serializable {
 	private String password;
 	private String sex;
 	private String email;
-	private String imageUrl;// 图像
-	private int isOnline=0;// 用户是否在线，0--离线,1--在线
-	private int level=0;
+	private String imageUrl;// 用户图像
+	private int isOnline = 0;// 用户是否在线，0--离线,1--在线
+	private int level = 0;// 用户等级 1--后台管理员 0--普通用户
 
 	public UserInfo() {
 		super();
@@ -24,7 +24,7 @@ public class UserInfo implements Serializable {
 	}
 
 	public UserInfo(int id, String name, String password, String sex,
-			String email, String imageUrl, int isOnline) {
+			String email, String imageUrl, int isOnline, int level) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -33,6 +33,7 @@ public class UserInfo implements Serializable {
 		this.email = email;
 		this.imageUrl = imageUrl;
 		this.isOnline = isOnline;
+		this.level = level;
 	}
 
 	public int getId() {
@@ -91,8 +92,12 @@ public class UserInfo implements Serializable {
 		this.isOnline = isOnline;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 }

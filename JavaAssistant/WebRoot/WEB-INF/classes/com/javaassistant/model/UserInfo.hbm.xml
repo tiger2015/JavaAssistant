@@ -12,5 +12,6 @@
 		<property name="email" column="user_email" length="32"></property>
 		<property name="imageUrl" column="user_image_url" length="1024"></property>
 		<property name="isOnline" column="user_isonline"></property>
+		<property name="level" column="user_level"></property>
 	</class>
 </hibernate-mapping>

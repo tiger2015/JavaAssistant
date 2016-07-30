@@ -27,7 +27,7 @@
 
 <body>
 	<center>
-		<form action="./knowledge/addKnowledge" method="post"
+		<form action="./knowledge/updateKnowledge" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>

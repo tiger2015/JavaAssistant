@@ -50,9 +50,11 @@
 						</td>
 						<td><s:property value="importance" />
 						</td>
-						<td><a href="javascript:void(0);" onclick="edit('<%=basePath%>knowledge/loadKnowledgeById',<s:property value="id" />)">编辑</a>
+						<td><a href="javascript:void(0);"
+							onclick="edit('<%=basePath%>knowledge/loadKnowledgeById',<s:property value="id" />)">编辑</a>
 						</td>
-						<td><input type="checkbox">
+						<td><input type="checkbox" name="delete_checkbox"
+							value="<s:property value="id" />" onclick="selectSingle(this)">
 						</td>
 					</tr>
 				</s:iterator>
@@ -65,10 +67,13 @@
 				onclick="next('<%=basePath%>knowledge/loadKnowledge',<s:property value="#request.id"/>,<s:property value="#request.pageSize"/>)">下一页</a>
 			<a href="javascript:void(0);"
 				onclick="last('<%=basePath%>knowledge/loadKnowledge',<s:property value="#request.pageCount"/>,<s:property value="#request.pageSize"/>)">尾页</a>
+			<input type="checkbox" title="全选" onclick="selectAll(this)"
+				id="select_all">全选
+		    <input type="button" value="删除" id="delete"
+				onclick="deleteSelected('<%=basePath%>')">
 		</s:else>
 	</center>
-</body>
-<script type="text/javascript">
+	<script type="text/javascript">
 	function gotoUrl(url) {
 		window.location.href = url;
 	}
@@ -91,6 +96,40 @@
 	function edit(url,id){
 		window.location.href=url+"?id="+id;
 	}
+	//选择全部
+	function selectAll(check){
+		if(check.checked){
+			var nodeList = document.getElementsByName("delete_checkbox");
+			for ( var i = 0; i < nodeList.length; i++) {
+				nodeList[i].checked = true;
+			}
+		}
+	}
+	//选中某个选项
+	function selectSingle(val) {
+		if (val.checked == false) {
+			var selAll = document.getElementById("select_all");
+			selAll.checked = false;
+		}
+	}
 	
+	function deleteSelected(url){
+		var vals="";
+		var nodeList = document.getElementsByName("delete_checkbox");
+		for ( var i = 0; i < nodeList.length; i++) {
+			if(nodeList[i].checked){
+				vals+=nodeList[i].value+",";
+			}
+		}
+		if(vals.length==0){
+			alert("若要删除，请至少选择一项！");
+			return;
+	    }
+		
+		if(window.confirm("确定要删除？")){		
+			window.location.href=url+"ids="+vals;
+		}	
+	}
 </script>
+</body>
 </html>
