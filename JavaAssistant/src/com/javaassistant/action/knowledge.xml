@@ -32,5 +32,11 @@
 				<param name="id">0</param>
 			</result>
 		</action>
+		<action name="deleteKnowledge" class="deleteKnowledgeAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">loadKnowledge</param>
+				<param name="id">0</param>
+			</result>
+		</action>
 	</package>
 </struts>

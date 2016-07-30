@@ -23,4 +23,7 @@
 	<bean id="loadKnowledgeByIdAction" class="com.javaassistant.action.LoadKnowledgeByIdAction">
 		<property name="dao" ref="knowledgeDAO"></property>
 	</bean>
+	<bean id="deleteKnowledgeAction" class="com.javaassistant.action.DeleteKnowledgeAction">
+		<property name="dao" ref="knowledgeDAO"></property>
+	</bean>
 </beans>
